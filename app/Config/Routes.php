@@ -34,6 +34,9 @@ $routes->setAutoRoute(true);
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
 $routes->get('/', 'Home::index');
+$routes->get('/login','AuthController::index');
+$routes->post('/login', 'AuthController::login');
+$routes->post('/logout', 'AuthController::logout');
 $routes->get('time', function () {
     echo Factory::create()->sentence();
 });
