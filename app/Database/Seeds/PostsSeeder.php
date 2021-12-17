@@ -23,7 +23,9 @@ class PostsSeeder extends Seeder
             'description' => $faker->text(),
             'img_dir' => $faker->image('uploads'),
             'user_id' => $faker->randomElement(['1', '2','3','4','5']),
-            'category_id' => $faker->randomElement(['1', '2', '3', '4'])
+            'category_id' => $faker->randomElement(['1', '2', '3', '4']),
+            'created_at' => $faker->date(),
+            'modified_at' => $faker->date(),
         ];
     }
 }
