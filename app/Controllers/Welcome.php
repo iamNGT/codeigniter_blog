@@ -24,11 +24,24 @@ class Welcome extends BaseController
     public function showPost($slug) {
         $query = $this->db->query('SELECT * FROM posts WHERE slug ='.$this->db->escape($slug));
         $queryUser = $this->db->query('SELECT fullName FROM users WHERE id =' . $this->db->escape($query->getRowObject()->user_id));
+        $queryCatagory = $this->db->query('SELECT * FROM categories WHERE id =' . $this->db->escape($query->getRowObject()->category_id));
         $data = [
             'post' => $query->getRowObject(),
-            'writer' => $queryUser->getRowObject()->fullName 
+            'writer' => $queryUser->getRowObject()->fullName,
+            'category' => $queryCatagory->getRowObject()
         ];
 
         return view('show',$data);
+    }
+
+    public function showPostByCategory($name,$id) {
+        $query = $this->db->query('SELECT * FROM posts WHERE category_id =' . $this->db->escape($id) .' LIMIT 5');
+        $queryCatagory = $this->db->query('SELECT * FROM categories WHERE id =' . $this->db->escape($id));
+        $data = [
+            'posts' => $query->getResult(),
+            'category' => $queryCatagory->getRowObject()
+        ];
+
+        return view('category_view', $data);   
     }
 }

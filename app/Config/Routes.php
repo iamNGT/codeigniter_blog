@@ -35,6 +35,7 @@ $routes->setAutoRoute(true);
 // route since we don't have to scan directories.
 $routes->get('/', 'Welcome::index');
 $routes->get('/post/(:segment)','Welcome::showPost/$1');
+$routes->get('/category/(:any)', 'Welcome::showPostByCategory/$1');
 $routes->get('/login','AuthController::index');
 $routes->post('/login', 'AuthController::login');
 $routes->post('/logout', 'AuthController::logout');
