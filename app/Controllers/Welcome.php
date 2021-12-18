@@ -11,11 +11,11 @@ class Welcome extends BaseController
 
     public function __construct() {
         $this->db = \Config\Database::connect();    
+        helper(['url','text','form']);
     }
 
     public function index()
     {
-        helper(['url']);
         $query = $this->db->query('SELECT * FROM posts ORDER BY created_at DESC LIMIT 5');
         $data['posts'] = $query->getResult();
         return view('home',$data);
@@ -24,11 +24,13 @@ class Welcome extends BaseController
     public function showPost($slug) {
         $query = $this->db->query('SELECT * FROM posts WHERE slug ='.$this->db->escape($slug));
         $queryUser = $this->db->query('SELECT fullName FROM users WHERE id =' . $this->db->escape($query->getRowObject()->user_id));
-        $queryCatagory = $this->db->query('SELECT * FROM categories WHERE id =' . $this->db->escape($query->getRowObject()->category_id));
+        $queryCategory = $this->db->query('SELECT * FROM categories WHERE id =' . $this->db->escape($query->getRowObject()->category_id));
+        $queryComment = $this->db->query('SELECT * FROM comments WHERE post_id =' . $this->db->escape($query->getRowObject()->id));
         $data = [
             'post' => $query->getRowObject(),
             'writer' => $queryUser->getRowObject()->fullName,
-            'category' => $queryCatagory->getRowObject()
+            'category' => $queryCategory->getRowObject(),
+            'comments' => $queryComment->getResult()
         ];
 
         return view('show',$data);

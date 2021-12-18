@@ -36,6 +36,7 @@ $routes->setAutoRoute(true);
 $routes->get('/', 'Welcome::index');
 $routes->get('/post/(:segment)','Welcome::showPost/$1');
 $routes->get('/category/(:any)', 'Welcome::showPostByCategory/$1');
+$routes->post('/comment', 'Comment::addComment');
 $routes->get('/login','AuthController::index');
 $routes->post('/login', 'AuthController::login');
 $routes->post('/logout', 'AuthController::logout');
