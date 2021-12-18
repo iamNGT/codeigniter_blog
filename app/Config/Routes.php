@@ -37,11 +37,21 @@ $routes->get('/', 'Welcome::index');
 $routes->get('/post/(:segment)','Welcome::showPost/$1');
 $routes->get('/category/(:any)', 'Welcome::showPostByCategory/$1');
 $routes->post('/comment', 'Comment::addComment');
+
+$routes->get('/about','Welcome::about');
+$routes->get('/contact', 'Welcome::contact');
+$routes->post('/contact', 'Welcome::sendMail');
+
 $routes->get('/login','AuthController::index');
 $routes->post('/login', 'AuthController::login');
+
+$routes->get('/signup', 'AuthController::signup');
+$routes->post('/signup', 'AuthController::register');
+
 $routes->post('/logout', 'AuthController::logout');
-$routes->get('time', function () {
-    echo Factory::create()->sentence();
+
+$routes->group('', ['filter' => 'active'],function ($routes) {
+    $routes->get('/dashboard','Admin::dashboard');
 });
 
 /*

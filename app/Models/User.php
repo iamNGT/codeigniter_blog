@@ -15,7 +15,7 @@ class User extends Model
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields    = [
-        'fullName','email','password'
+        'fullName','email','password','role_id'
     ];
 
     // Dates
@@ -26,10 +26,10 @@ class User extends Model
 
     // Validation
     protected $validationRules    = [
-        'username'     => 'required|alpha_numeric_space|min_length[3]',
+        'fullName'     => 'required|alpha_numeric_space|min_length[6]',
         'email'        => 'required|valid_email|is_unique[users.email]',
-        'password'     => 'required|min_length[8]',
-        'pass_confirm' => 'required_with[password]|matches[password]',
+        'password'     => 'required|alpha_numeric|min_length[8]',
+        'password_confirm' => 'matches[password]',
     ];
     protected $validationMessages   = [];
     protected $skipValidation       = false;

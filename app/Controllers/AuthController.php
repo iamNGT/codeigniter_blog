@@ -13,17 +13,15 @@ class AuthController extends BaseController
 
     public function __construct() {
         $this->db = \Config\Database::connect();
-        helper(['url']);
+        helper(['url', 'form']);
     }
-
+    
     public function index()
     {
-        helper(['form']);
         echo view('Auth/Login');
     }
-
+    
     public function login(){
-        // $db = \Config\Database::connect();
         $session = session();
 
         $email = $this->request->getPost('email');
@@ -51,6 +49,35 @@ class AuthController extends BaseController
         } else {
             $session->setFlashdata('msg', 'Email or Password is incorrect.');
             return redirect()->to('/login');
+        }
+
+    }
+
+    public function signup() {
+        $data = [];
+        echo view('Auth/Register', $data);
+    }
+
+    public function register() 
+    {
+
+        $session = session();
+        $user = new User();
+
+        if ($this->validate($user->getValidationRules())) {
+
+
+            $data = [
+                'fullName'     => $this->request->getVar('fullName'),
+                'email'    => $this->request->getVar('email'),
+                'password' => password_hash($this->request->getVar('password'), PASSWORD_DEFAULT),
+            ];
+            $this->db->table('users')->insert($data);
+            $session->setFlashdata('msg', 'Account created.');
+            return redirect()->to('/login');
+        } else {
+            $data['errors'] = $this->validator;
+            echo view('Auth/Register', $data);
         }
 
     }

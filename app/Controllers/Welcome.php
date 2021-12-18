@@ -46,4 +46,16 @@ class Welcome extends BaseController
 
         return view('category_view', $data);   
     }
+
+    public function about() {
+        return view('about');
+    }
+
+    public function contact() {
+        return view('contact');
+    }
+
+    public function sendMail() {
+        //
+    }
 }

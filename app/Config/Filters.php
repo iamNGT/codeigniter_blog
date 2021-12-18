@@ -2,6 +2,8 @@
 
 namespace Config;
 
+use App\Filters\ActiveUser;
+use App\Filters\AuthGuard;
 use CodeIgniter\Config\BaseConfig;
 use CodeIgniter\Filters\CSRF;
 use CodeIgniter\Filters\DebugToolbar;
@@ -19,6 +21,8 @@ class Filters extends BaseConfig
         'csrf'     => CSRF::class,
         'toolbar'  => DebugToolbar::class,
         'honeypot' => Honeypot::class,
+        'auth' => AuthGuard::class,
+        'active' => ActiveUser::class
     ];
 
     /**
