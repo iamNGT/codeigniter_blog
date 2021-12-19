@@ -49,9 +49,26 @@ $routes->get('/signup', 'AuthController::signup');
 $routes->post('/signup', 'AuthController::register');
 
 $routes->post('/logout', 'AuthController::logout');
+$routes->get('/user_message','AuthController::user_message');
 
-$routes->group('', ['filter' => 'active'],function ($routes) {
-    $routes->get('/dashboard','Admin::dashboard');
+$routes->group('', ['filter' => 'auth'],function ($routes) {
+    $routes->get('/dashboard','Admin\Admin::index');
+
+    //users 
+    $routes->get('users',                 'Admin\User::index');
+    $routes->get('users/new',             'Admin\User::new');
+    $routes->post('users',                'Admin\User::create');
+    $routes->get('users/(:segment)/edit', 'Admin\User::edit/$1');
+    $routes->post('users/update/(:segment)',      'Admin\User::update/$1');
+    $routes->post('users/delete/(:segment)',   'Admin\User::delete/$1');
+
+    //role
+    $routes->get('roles',                 'Admin\Role::index');
+    $routes->get('roles/new',             'Admin\Role::new');
+    $routes->post('roles',                'Admin\Role::create');
+    $routes->get('roles/(:segment)/edit', 'Admin\Role::edit/$1');
+    $routes->post('roles/update/(:segment)',      'Admin\Role::update/$1');
+    $routes->post('roles/delete/(:segment)',   'Admin\Role::delete/$1');
 });
 
 /*

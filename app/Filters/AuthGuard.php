@@ -25,10 +25,7 @@ class AuthGuard implements FilterInterface
     }
 
     /**
-     * Allows After filters to inspect and modify the response
-     * object as needed. This method does not allow any way
-     * to stop execution of other after filters, short of
-     * throwing an Exception or Error.
+     * This function check if the user account is activated
      *
      * @param RequestInterface  $request
      * @param ResponseInterface $response
@@ -38,6 +35,9 @@ class AuthGuard implements FilterInterface
      */
     public function after(RequestInterface $request, ResponseInterface $response, $arguments = null)
     {
-        //
+        if (!session()->get('account_active')) {
+            return redirect()
+                ->to(base_url('/user_message'));
+        }
     }
 }

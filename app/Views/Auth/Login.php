@@ -1,17 +1,7 @@
-<!doctype html>
-<html lang="en">
+<?= $this->extend('template/layout') ?>
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <title>Codeigniter Login with Email/Password Example</title>
-</head>
-
-<body>
-    <div class="container">
-        <div class="row justify-content-md-center">
+<?= $this->section('content') ?>
+        <div class="row justify-content-md-center mt-5">
             <div class="col-5">
 
                 <h2>Login in</h2>
@@ -38,7 +28,4 @@
             </div>
 
         </div>
-    </div>
-</body>
-
-</html>
+<?= $this->endSection() ?>

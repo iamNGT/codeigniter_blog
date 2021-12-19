@@ -3,10 +3,11 @@
 
 <?= $this->section('content') ?>
 
-<span class="h5">Contact us</span>
 
-<div class="row">
-    <form action="" method="post" class="w-50" >
+<div class="row justify-content-md-center mt-5">
+    <span class="h5">Contact us</span>
+
+    <form action="<?= base_url('/contact') ?>" method="post" class="w-50">
         <div class="mb-3">
             <label for="email" class="form-label">Email address</label>
             <input type="email" name="email" class="form-control" aria-describedby="emailHelp">

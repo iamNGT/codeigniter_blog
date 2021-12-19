@@ -22,9 +22,9 @@ class ActiveUser implements FilterInterface
         $db = \Config\Database::connect();
         $query = $db->query('SELECT active FROM users WHERE id ='. $db->escape(session()->get('id')));
         $active = $query->getRowObject()->active;
-        if ($active != 1) {
+        if ($active !== 1) {
             return redirect()
-                ->to(view('user_message'));
+                ->to(base_url('/user_message'));
         }
     }
 

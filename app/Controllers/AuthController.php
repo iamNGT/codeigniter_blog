@@ -30,18 +30,19 @@ class AuthController extends BaseController
         $query = $this->db->query('SELECT * FROM users WHERE email = '.$this->db->escape($email));
         $data = $query->getRowArray();
         if ($data) {
-            $pass = $data['password'];
-            $authenticatePassword = $password === $pass ? $pass : null;
+            $db_password = $data['password'];
+            $authenticatePassword = password_verify($password, $db_password);
             if ($authenticatePassword) {
                 $session_data = [
                     'id' => $data['id'],
                     'name' => $data['fullName'],
                     'email' => $data['email'],
+                    'account_active' => $data['active'] == 1 ? TRUE : FALSE,
                     'isLoggedIn' => TRUE
                 ];
 
                 $session->set($session_data);
-                return redirect()->to(base_url());
+                return redirect()->to(base_url('/dashboard'));
             } else {
                 $session->setFlashdata('msg', 'Email or Password is incorrect.');
                 return redirect()->to('/login');
@@ -80,6 +81,10 @@ class AuthController extends BaseController
             echo view('Auth/Register', $data);
         }
 
+    }
+
+    public function user_message() {
+        return view('user_message');
     }
 
     public function logout() {

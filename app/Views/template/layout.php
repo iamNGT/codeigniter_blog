@@ -22,10 +22,10 @@
                         <a class="nav-link active" aria-current="page" href="/">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">About us</a>
+                        <a class="nav-link" href="<?= base_url('/about') ?>">About us</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link ">Contact us</a>
+                        <a class="nav-link " href="<?= base_url('/contact') ?>">Contact us</a>
                     </li>
                 </ul>
                 <form class="d-flex">
@@ -39,7 +39,7 @@
         <?= $this->renderSection('content') ?>
     </div>
 
-    <footer class="footer bg-lightbulb py-4 mt-auto">
+    <footer class="footer bg-lightbulb py-4 mt-auto mb-0">
         <div class="container">
             <p>Made by <a href="#" class="link-primary">iamNGT</a></p>
         </div>
