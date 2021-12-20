@@ -20,21 +20,20 @@
     </div>
 <?php endif; ?>
 
-<form action="<?= base_url('/users/update/' . $post->id) ?>" method="post" class="w-50" enctype="multipart/form-data">
+<form action="<?= base_url('/posts/update/' . $post->id) ?>" method="post" class="w-50" enctype="multipart/form-data">
     <div class="mb-3">
         <label for="name" class="form-label">Title</label>
         <input type="text" name="title" class="form-control" value="<?= $post->title ?>">
     </div>
     <div class="mb-3">
         <label for="email" class="form-label">Image</label>
-        <input type="file" name="img" class="form-control" required>
+        <input type="file" name="img" class="form-control">
     </div>
     <div class="mb-3 ">
         <label for="name" class="form-label">Tag</label>
         <select class="form-select w-50" name="tags[]" multiple>
-
             <?php foreach ($tags as $tag) : ?>
-                <option value="<?= $tag->id ?>"></option>
+                <option value="<?= $tag->id ?>"><?= $tag->name ?></option>
             <?php endforeach ?>
         </select>
     </div>

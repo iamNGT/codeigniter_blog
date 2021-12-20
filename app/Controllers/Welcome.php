@@ -27,12 +27,10 @@ class Welcome extends BaseController
         $query = $this->db->query('SELECT * FROM posts WHERE slug ='.$this->db->escape($slug));
         $queryUser = $this->db->query('SELECT fullName FROM users WHERE id =' . $this->db->escape($query->getRowObject()->user_id));
         $queryTags = $this->db->query('SELECT DISTINCT tags.name FROM posts_tag RIGHT JOIN tags ON posts_tag.tags_id = tags.id WHERE posts_tag.posts_id =' . $this->db->escape($query->getRowObject()->id)); 
-        $queryComment = $this->db->query('SELECT * FROM comments WHERE post_id =' . $this->db->escape($query->getRowObject()->id));
         $data = [
             'post' => $query->getRowObject(),
             'tags' => $queryTags->getResult(),
-            'writer' => $queryUser->getRowObject()->fullName,
-            'comments' => $queryComment->getResult()
+            'writer' => $queryUser->getRowObject()->fullName
         ];
 
         return view('show',$data);
