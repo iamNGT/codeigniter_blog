@@ -13,7 +13,7 @@
                         <?= $item->title ?>
                     </h6>
                     <p class="card-text">
-                        <?= word_limiter($item->description,5,'...') ?>
+                        <?= word_limiter($item->description, 5, '...') ?>
                     </p>
                     <a href="<?= base_url('/post/' . $item->slug) ?>" class="btn btn-primary">Read +</a>
                 </div>

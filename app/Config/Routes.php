@@ -35,8 +35,14 @@ $routes->setAutoRoute(true);
 // route since we don't have to scan directories.
 $routes->get('/', 'Welcome::index');
 $routes->get('/post/(:segment)','Welcome::showPost/$1');
-$routes->get('/category/(:any)', 'Welcome::showPostByCategory/$1');
+$routes->post('/like/(:segment)', 'Welcome::likeOrUnlike/$1');
+$routes->post('/unlike/(:segment)', 'Welcome::likeOrUnlike/$1');
+
+$routes->get('/allComment/(:segment)', 'Comment::getAllComment/$1');
 $routes->post('/comment', 'Comment::addComment');
+$routes->get('/countComment/(:segment)', 'Comment::countComment/$1');
+
+
 
 $routes->get('/about','Welcome::about');
 $routes->get('/contact', 'Welcome::contact');
@@ -54,21 +60,39 @@ $routes->get('/user_message','AuthController::user_message');
 $routes->group('', ['filter' => 'auth'],function ($routes) {
     $routes->get('/dashboard','Admin\Admin::index');
 
-    //users 
-    $routes->get('users',                 'Admin\User::index');
-    $routes->get('users/new',             'Admin\User::new');
-    $routes->post('users',                'Admin\User::create');
-    $routes->get('users/(:segment)/edit', 'Admin\User::edit/$1');
-    $routes->post('users/update/(:segment)',      'Admin\User::update/$1');
-    $routes->post('users/delete/(:segment)',   'Admin\User::delete/$1');
+    $routes->group('',['filter' => 'admin'],function ($routes) {
+        //users 
+        $routes->get('users',                 'Admin\User::index');
+        $routes->get('users/new',             'Admin\User::new');
+        $routes->post('users',                'Admin\User::create');
+        $routes->get('users/(:segment)/edit', 'Admin\User::edit/$1');
+        $routes->post('users/update/(:segment)',      'Admin\User::update/$1');
+        $routes->post('users/delete/(:segment)',   'Admin\User::delete/$1');
 
-    //role
-    $routes->get('roles',                 'Admin\Role::index');
-    $routes->get('roles/new',             'Admin\Role::new');
-    $routes->post('roles',                'Admin\Role::create');
-    $routes->get('roles/(:segment)/edit', 'Admin\Role::edit/$1');
-    $routes->post('roles/update/(:segment)',      'Admin\Role::update/$1');
-    $routes->post('roles/delete/(:segment)',   'Admin\Role::delete/$1');
+        //role
+        $routes->get('roles',                 'Admin\Role::index');
+        $routes->get('roles/new',             'Admin\Role::new');
+        $routes->post('roles',                'Admin\Role::create');
+        $routes->get('roles/(:segment)/edit', 'Admin\Role::edit/$1');
+        $routes->post('roles/update/(:segment)',      'Admin\Role::update/$1');
+        $routes->post('roles/delete/(:segment)',   'Admin\Role::delete/$1');
+
+        //tag
+        $routes->get('tags',                 'Admin\Tag::index');
+        $routes->get('tags/new',             'Admin\Tag::new');
+        $routes->post('tags',                'Admin\Tag::create');
+        $routes->get('tags/(:segment)/edit', 'Admin\Tag::edit/$1');
+        $routes->post('tags/update/(:segment)',      'Admin\Tag::update/$1');
+        $routes->post('tags/delete/(:segment)',   'Admin\Tag::delete/$1');
+    });
+
+    //post
+    $routes->get('posts',                 'Admin\Post::index');
+    $routes->get('posts/new',             'Admin\Post::new');
+    $routes->post('posts',                'Admin\Post::create');
+    $routes->get('posts/(:segment)/edit', 'Admin\Post::edit/$1');
+    $routes->post('posts/update/(:segment)',      'Admin\Post::update/$1');
+    $routes->post('posts/delete/(:segment)',   'Admin\Post::delete/$1');
 });
 
 /*

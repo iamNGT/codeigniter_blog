@@ -28,11 +28,11 @@ class CreateTableCategories extends Migration
         ]);
 
         $this->forge->addPrimaryKey('id');
-        $this->forge->createTable('categories');
+        $this->forge->createTable('tags');
     }
 
     public function down()
     {
-        $this->forge->dropTable('categories');
+        $this->forge->dropTable('tags');
     }
 }

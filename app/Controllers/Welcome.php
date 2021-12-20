@@ -3,20 +3,22 @@
 namespace App\Controllers;
 
 use App\Controllers\BaseController;
+use CodeIgniter\Database\Query;
 
 class Welcome extends BaseController
 {
 
     protected $db;
+    protected $pager;
 
     public function __construct() {
-        $this->db = \Config\Database::connect();    
+        $this->db = \Config\Database::connect(); 
         helper(['url','text','form']);
     }
 
     public function index()
     {
-        $query = $this->db->query('SELECT * FROM posts ORDER BY created_at DESC LIMIT 5');
+        $query = $this->db->query('SELECT * FROM posts ORDER BY created_at DESC');
         $data['posts'] = $query->getResult();
         return view('home',$data);
     }
@@ -24,38 +26,49 @@ class Welcome extends BaseController
     public function showPost($slug) {
         $query = $this->db->query('SELECT * FROM posts WHERE slug ='.$this->db->escape($slug));
         $queryUser = $this->db->query('SELECT fullName FROM users WHERE id =' . $this->db->escape($query->getRowObject()->user_id));
-        $queryCategory = $this->db->query('SELECT * FROM categories WHERE id =' . $this->db->escape($query->getRowObject()->category_id));
+        $queryTags = $this->db->query('SELECT DISTINCT tags.name FROM posts_tag RIGHT JOIN tags ON posts_tag.tags_id = tags.id WHERE posts_tag.posts_id =' . $this->db->escape($query->getRowObject()->id)); 
         $queryComment = $this->db->query('SELECT * FROM comments WHERE post_id =' . $this->db->escape($query->getRowObject()->id));
         $data = [
             'post' => $query->getRowObject(),
+            'tags' => $queryTags->getResult(),
             'writer' => $queryUser->getRowObject()->fullName,
-            'category' => $queryCategory->getRowObject(),
             'comments' => $queryComment->getResult()
         ];
 
         return view('show',$data);
     }
 
-    public function showPostByCategory($name,$id) {
-        $query = $this->db->query('SELECT * FROM posts WHERE category_id =' . $this->db->escape($id) .' LIMIT 5');
-        $queryCatagory = $this->db->query('SELECT * FROM categories WHERE id =' . $this->db->escape($id));
-        $data = [
-            'posts' => $query->getResult(),
-            'category' => $queryCatagory->getRowObject()
-        ];
+    public function likeOrUnlike($slug) {
+        if(url_is('like*')) {
+            $value = intval($this->request->getPost('like')) + 1;
+            $query = $this->db->prepare(function ($db) {
+                $sql = "UPDATE posts SET posts.like=? WHERE id=?";
+    
+                return (new Query($db))->setQuery($sql);
+            });
+            $query->execute(
+                $value,
+                $this->db->escapeIdentifiers($this->request->getPost('id'))
+            );
+            session()->setFlashdata('msg', "you have like the post");
+            return redirect()->to(base_url('/post/' . $slug));
 
-        return view('category_view', $data);   
+        } elseif (url_is('unlike*')) {
+            $value = intval($this->request->getPost('unlike')) + 1;
+            $query = $this->db->prepare(function ($db) {
+                $sql = "UPDATE posts SET posts.unlike=? WHERE id=?";
+
+                return (new Query($db))->setQuery($sql);
+            });
+            $query->execute(
+                $value,
+                $this->db->escapeIdentifiers($this->request->getPost('id'))
+            );
+            session()->setFlashdata('msg', "you have unlike the post");
+            return redirect()->to(base_url('/post/' . $slug));
+        }
+
     }
 
-    public function about() {
-        return view('about');
-    }
 
-    public function contact() {
-        return view('contact');
-    }
-
-    public function sendMail() {
-        //
-    }
 }

@@ -9,7 +9,7 @@ class PostsSeeder extends Seeder
 {
     public function run()
     {
-        for ($i = 0; $i < 15; $i++) {
+        for ($i = 0; $i < 10; $i++) {
             $this->db->table('posts')->insert($this->insertPosts());
         }
     }
@@ -20,10 +20,9 @@ class PostsSeeder extends Seeder
         return [
             'title' => $faker->sentence(),
             'slug' => $faker->slug(),
-            'description' => $faker->text(),
+            'description' => $faker->text(500),
             'img_dir' => $faker->image('uploads'),
             'user_id' => $faker->randomElement(['1', '2','3','4','5']),
-            'category_id' => $faker->randomElement(['1', '2', '3', '4']),
             'created_at' => $faker->date(),
             'modified_at' => $faker->date(),
         ];

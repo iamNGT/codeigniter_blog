@@ -6,11 +6,17 @@ use CodeIgniter\Filters\FilterInterface;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
 
-class ActiveUser implements FilterInterface
+class CheckRole implements FilterInterface
 {
     /**
-     * This filter check if a user account is not activated
-     * then redirect to a view message
+     * Do whatever processing this filter needs to do.
+     * By default it should not return anything during
+     * normal execution. However, when an abnormal state
+     * is found, it should return an instance of
+     * CodeIgniter\HTTP\Response. If it does, script
+     * execution will end and that Response will be
+     * sent back to the client, allowing for error pages,
+     * redirects, etc.
      *
      * @param RequestInterface $request
      * @param array|null       $arguments
@@ -19,12 +25,9 @@ class ActiveUser implements FilterInterface
      */
     public function before(RequestInterface $request, $arguments = null)
     {
-        $db = \Config\Database::connect();
-        $query = $db->query('SELECT active FROM users WHERE id ='. $db->escape(session()->get('id')));
-        $active = $query->getRowObject()->active;
-        if ($active !== 1) {
-            return redirect()
-                ->to(base_url('/user_message'));
+        if(session()->get('role') !== 'admin') {
+            session()->setFlashdata('msg',"you can't have access this route");
+            return redirect()->to(base_url('/dashboard'));
         }
     }
 

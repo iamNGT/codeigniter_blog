@@ -39,42 +39,38 @@
                  <div class="position-sticky pt-3">
                      <ul class="nav flex-column">
                          <li class="nav-item">
-                             <a class="nav-link active" aria-current="page" href="#">
+                             <a class="nav-link active" aria-current="page" href="<?= base_url('/dashboard') ?>">
                                  <span data-feather="home"></span>
                                  Dashboard
                              </a>
                          </li>
+                         <?php if(session()->get('role') == 'admin'): ?>
                          <li class="nav-item">
-                             <a class="nav-link" href="#">
+                             <a class="nav-link" href="<?= base_url('/users') ?>">
                                  <span data-feather="file"></span>
-                                 Orders
+                                 Users
                              </a>
                          </li>
                          <li class="nav-item">
-                             <a class="nav-link" href="#">
+                             <a class="nav-link" href="<?= base_url('/roles') ?>">
                                  <span data-feather="shopping-cart"></span>
-                                 Products
+                                 Roles
                              </a>
                          </li>
                          <li class="nav-item">
-                             <a class="nav-link" href="#">
+                             <a class="nav-link" href="<?= base_url('/tags') ?>">
                                  <span data-feather="users"></span>
-                                 Customers
+                                 Tags
                              </a>
                          </li>
+                        <?php endif ?>
+
                          <li class="nav-item">
-                             <a class="nav-link" href="#">
-                                 <span data-feather="bar-chart-2"></span>
-                                 Reports
+                             <a class="nav-link" href="<?= base_url('/posts') ?>">
+                                 <span data-feather="users"></span>
+                                 Posts
                              </a>
                          </li>
-                         <li class="nav-item">
-                             <a class="nav-link" href="#">
-                                 <span data-feather="layers"></span>
-                                 Integrations
-                             </a>
-                         </li>
-                     </ul>
 
                  </div>
              </nav>

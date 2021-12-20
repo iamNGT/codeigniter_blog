@@ -26,12 +26,19 @@ class CreateTablePosts extends Migration
             'description' => [
                 'type' => 'TEXT'
             ],
-            'user_id' => [
-                'type' => 'INT',
-                'constraint' => 11,
-                'unsigned' => TRUE
+            'img_dir' => [
+                'type' => 'VARCHAR',
+                'constraint' => '255'
             ],
-            'category_id' => [
+            'like' => [
+                'type' => 'INT',
+                'constraint' => '20'
+            ],
+            'unlike' => [
+                'type' => 'INT',
+                'constraint' => '20'
+            ],
+            'user_id' => [
                 'type' => 'INT',
                 'constraint' => 11,
                 'unsigned' => TRUE
@@ -45,7 +52,6 @@ class CreateTablePosts extends Migration
         ]);
         $this->forge->addPrimaryKey('id');
         $this->forge->addForeignKey('user_id','users','id');
-        $this->forge->addForeignKey('category_id','categories','id');
         $this->forge->createTable('posts');
     }
 

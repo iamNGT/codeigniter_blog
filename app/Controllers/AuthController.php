@@ -29,6 +29,7 @@ class AuthController extends BaseController
 
         $query = $this->db->query('SELECT * FROM users WHERE email = '.$this->db->escape($email));
         $data = $query->getRowArray();
+        $role = $this->db->query('SELECT roles.name FROM roles WHERE id='.$data['role_id'])->getRowObject();
         if ($data) {
             $db_password = $data['password'];
             $authenticatePassword = password_verify($password, $db_password);
@@ -37,6 +38,7 @@ class AuthController extends BaseController
                     'id' => $data['id'],
                     'name' => $data['fullName'],
                     'email' => $data['email'],
+                    'role' => $role->name,
                     'account_active' => $data['active'] == 1 ? TRUE : FALSE,
                     'isLoggedIn' => TRUE
                 ];
