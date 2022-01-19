@@ -57,8 +57,8 @@ class Post extends BaseController
 
         }else if($this->request->getMethod() === 'post' && $this->validate($this->rules) ) {
             $img = $this->request->getFile('img');
-            $img_dir ="uploads/".random_string('numeric', 6).$img->getName();
-            $img->move(ROOTPATH . 'public/uploads', random_string('numeric', 6) . $img->getName());
+            $img_dir ="uploads/".$img->getName();
+            $img->move(ROOTPATH . 'public/uploads');
             $query = $this->db->prepare(function ($db) {
                 $sql = "INSERT INTO posts( title, slug, posts.description, img_dir,posts.user_id) VALUES (?,?,?,?,?)";
 
@@ -104,8 +104,8 @@ class Post extends BaseController
         } else if ($this->request->getMethod() === 'post' && $this->validate($this->rules)) {
 
             $img = $this->request->getFile('img');
-            $img_dir = "uploads/" . random_string('numeric', 6) . $img->getName();
-            $img->move(ROOTPATH . 'public/uploads', random_string('numeric', 6) . $img->getName());
+            $img_dir = "uploads/" . $img->getName();
+            $img->move(ROOTPATH . 'public/uploads');
             $query = $this->db->prepare(function ($db) {
                 $sql = "UPDATE posts SET title=?,slug=?,posts.description=?,img_dir=? WHERE id=?";
 

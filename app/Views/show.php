@@ -8,7 +8,7 @@
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="/" class="link-secondary">Home</a></li>
             <li class="breadcrumb-item active" aria-current="page">
-                <a class="link-secondary" href="<?= base_url('/post/' . $post->slug) ?>">
+                <a class="link-secondary" href="<?= '/post/' . $post->slug ?>">
                     <?= $post->title ?>
                 </a>
             </li>
@@ -22,7 +22,7 @@
         <?php endif; ?>
         <span class="h2 mb-5"><?= $post->title ?></span>
         <div class="d-flex flex-column my-3">
-            <img src="<?= base_url('/' . $post->img_dir) ?>" class="img-fluid" alt="..." width="760" height="570">
+            <img src="<?= '/' . $post->img_dir ?>" class="img-fluid" alt="..." width="760" height="570">
             <small class="text-muted">
                 <span class="h6">Writen by <?= $writer ?> on <?= $post->created_at ?> ,</span>
             </small>
@@ -33,6 +33,9 @@
             </small>
             <small class="text-muted">
                 <span class="h6">Like: <?= $post->like ?> like | <?= $post->unlike ?> unlike ,</span>
+                <span id="like">
+
+                </span>
             </small>
         </div>
 
@@ -40,20 +43,20 @@
             <?= $post->description ?>
         </p>
 
+        <button type="submit" class="btn btn-primary" id="btnLike">
+            Like the post
+        </button>
+        <button type="submit" class="btn btn-danger" id="btnUnlike">
+            Unlike the post
+        </button>
         <div class="d-flex justify-content-center">
             <form action="<?= base_url('/like/' . $post->slug) ?>" method="post">
                 <input type="hidden" name="id" value="<?= $post->id ?>">
                 <input type="hidden" name="like" value="<?= $post->like ?>">
-                <button type="submit" class="btn btn-primary">
-                    Like the post
-                </button>
             </form>
             <form action="<?= base_url('/unlike/' . $post->slug) ?>" method="post">
                 <input type="hidden" name="id" value="<?= $post->id ?>">
                 <input type="hidden" name="unlike" value="<?= $post->unlike ?>">
-                <button type="submit" class="btn btn-danger">
-                    Unlike the post
-                </button>
             </form>
         </div>
 
@@ -93,6 +96,25 @@
 <?= $this->section('js') ?>
 <script>
     $(function() {
+
+        var btn  = $('#btnLike')
+        var like  = $('#like')
+        var unlike = $('#btnUnlike')
+            var num = 0
+
+        btn.on('click', function () {
+            num+=1
+            console.log(num)
+            like.html(num)
+        })
+
+        unlike.on('click', function () {
+            if(num%3 == 0){
+            num-=1
+            like.html(num)
+            }
+        })
+
         var addBtn = $("#commentBtn");
         addBtn.on('click', () => {
             $("#commentForm").removeClass("invisible")
